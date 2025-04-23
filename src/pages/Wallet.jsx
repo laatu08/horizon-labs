@@ -1,64 +1,39 @@
-import React, { useState } from "react";
-
-const transactionsData = [
-  {
-    date: "Oct 26, 2022",
-    transactions: [
-      {
-        name: "Adam Costa",
-        bank: "Standard Chartered Bank",
-        time: "5:02 PM",
-        amount: 200,
-        type: "credit",
-      },
-      {
-        name: "Sarah Eric",
-        bank: "Payment Received",
-        time: "3:22 PM",
-        amount: 200,
-        type: "debit",
-      },
-    ],
-  },
-  {
-    date: "Oct 25, 2022",
-    transactions: [
-      {
-        name: "Millie Bobby",
-        bank: "Payment Received",
-        time: "3:22 PM",
-        amount: 200,
-        type: "debit",
-      },
-      {
-        name: "William Edward",
-        bank: "Payment Received",
-        time: "3:22 PM",
-        amount: 200,
-        type: "debit",
-      },
-      {
-        name: "Adam Costa",
-        bank: "Standard Chartered Bank",
-        time: "5:02 PM",
-        amount: 200,
-        type: "credit",
-      },
-    ],
-  },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function WalletPage() {
   const [balance, setBalance] = useState(1340.56);
+  const [transactions, setTransactions] = useState([]);
+  
+  // Fetch the balance and transactions on component mount
+  useEffect(() => {
+    // Fetch balance
+    axios.get('http://localhost:5000/api/wallet/balance')
+      .then(response => setBalance(response.data.balance))
+      .catch(error => console.error("Error fetching balance:", error));
+
+    // Fetch transactions
+    axios.get('http://localhost:5000/api/wallet/transactions')
+      .then(response => setTransactions(response.data))
+      .catch(error => console.error("Error fetching transactions:", error));
+  }, []);
 
   const addMoney = () => {
-    setBalance((prev) => prev + 100);
+    axios.post('http://localhost:5000/api/wallet/add-money', { amount: 100 })
+      .then(response => setBalance(response.data.balance))
+      .catch(error => console.error("Error adding money:", error));
   };
 
   const withdrawMoney = () => {
-    if (balance >= 100) {
-      setBalance((prev) => prev - 100);
-    }
+    axios.post('http://localhost:5000/api/wallet/withdraw-money', { amount: 100 })
+      .then(response => {
+        if (response.data.success) {
+          setBalance(response.data.balance);
+        } else {
+          console.error(response.data.message);
+        }
+      })
+      .catch(error => console.error("Error withdrawing money:", error));
   };
 
   return (
@@ -66,7 +41,7 @@ export default function WalletPage() {
       <div className="bg-indigo-600 text-white rounded-b-3xl px-6 py-8 relative">
         <div className="flex gap-5">
           <img
-            src="src\assets\arrow_back_128dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+            src="src/assets/arrow_back_128dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
             alt=""
             width="30"
           />
@@ -82,7 +57,7 @@ export default function WalletPage() {
               onClick={addMoney}
             >
               <img
-                src="src\assets\add_128dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+                src="src/assets/add_128dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
                 className="invert"
                 width="20"
                 alt=""
@@ -94,7 +69,7 @@ export default function WalletPage() {
               onClick={withdrawMoney}
             >
               <img
-                src="src\assets\output_128dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+                src="src/assets/output_128dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
                 className="invert"
                 width="20"
                 alt=""
@@ -106,7 +81,7 @@ export default function WalletPage() {
       </div>
 
       <div className="px-6 py-4">
-        {transactionsData.map((section, index) => (
+        {transactions.map((section, index) => (
           <div key={index} className="mb-4">
             <div className="flex items-center justify-center">
               <p className="text-gray-500 font-bold text-sm mb-2">
