@@ -1,12 +1,41 @@
-# React + Vite
+# Wallet Page Implementation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## **Description**
 
-Currently, two official plugins are available:
+This project is a simple wallet management page built using React. The main functionality includes displaying the user's balance, showing transaction history, and allowing the user to add or withdraw money. The project uses Axios for making API requests to interact with a backend service that handles the wallet's balance and transaction data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### **Features**
+- **Display User's Balance**: Shows the current balance with the ability to update when money is added or withdrawn.
+- **Transaction History**: Displays a list of transactions that includes credits and debits, each with a timestamp, transaction type, and associated details.
+- **Add and Withdraw Money**: Users can add money to the wallet or withdraw money through buttons that interact with the backend.
 
-## Expanding the ESLint configuration
+## **Technologies Used**
+- **React**: For the frontend UI and state management.
+- **Axios**: For making HTTP requests to fetch balance, transaction history, and perform transactions.
+- **Tailwind CSS**: For styling the page.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## **API Endpoints**
+- `GET /api/wallet/balance`: Fetch the user's current balance.
+- `GET /api/wallet/transactions`: Fetch the user's transaction history.
+- `POST /api/wallet/add-money`: Add money to the wallet.
+- `POST /api/wallet/withdraw-money`: Withdraw money from the wallet.
+
+## **How to Run**
+
+### **1. Clone the repository**
+```bash
+git clone https://github.com/laatu08/horizon-labs.git
+```
+
+### **2. Frontend
+```bash
+npm install
+npm run dev
+```
+
+### **3. Backend
+```bash
+cd backend
+npm install
+npx nodemon index.js
+```
