@@ -1,5 +1,7 @@
 # Wallet Page Implementation
 
+[Watch the video](https://youtu.be/2OU1NGTsE3s)
+
 ## **Description**
 
 This project is a simple wallet management page built using React. The main functionality includes displaying the user's balance, showing transaction history, and allowing the user to add or withdraw money. The project uses Axios for making API requests to interact with a backend service that handles the wallet's balance and transaction data.
